@@ -12,7 +12,7 @@ screen_height = 1000
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Platformer')
 
-#define game variables
+#spel variabelen
 tile_size = 50
 
 #load images
@@ -47,18 +47,18 @@ class Player():
 		dy = 0
 		walk_cooldown = 5
 
-		#get keypresses
+		#toetsen
 		key = pygame.key.get_pressed()
 		if key[pygame.K_UP] and self.jumped == False:
 			self.vel_y = -15
 			self.jumped = True
 		if key[pygame.K_UP] == False:
 			self.jumped = False
-		if key[pygame.K_LEFT]:
+		if key[pygame.K_LEFT] == True:
 			dx -= 5
 			self.counter += 1
 			self.direction = -1
-		if key[pygame.K_RIGHT]:
+		if key[pygame.K_RIGHT] == True:
 			dx += 5
 			self.counter += 1
 			self.direction = 1
@@ -71,7 +71,7 @@ class Player():
 				self.image = self.images_left[self.index]
 
 
-		#handle animation
+		#animatie
 		if self.counter > walk_cooldown:
 			self.counter = 0	
 			self.index += 1
@@ -83,24 +83,24 @@ class Player():
 				self.image = self.images_left[self.index]
 
 
-		#add gravity
+		#zwaartekracht 
 		self.vel_y += 1
 		if self.vel_y > 10:
 			self.vel_y = 10
 		dy += self.vel_y
 
-		#check for collision
+		#controleer op botsing
 		for tile in world.tile_list:
-			#check for collision in x direction
+			#controleer op botsing in x directie
 			if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
 				dx = 0
-			#check for collision in y direction
+			#controleer op botsing in y directie
 			if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
-				#check if below the ground i.e. jumping
+				#onder de grond check/springen
 				if self.vel_y < 0:
 					dy = tile[1].bottom - self.rect.top
 					self.vel_y = 0
-				#check if above the ground i.e. falling
+				#in de lucht check/vallen
 				elif self.vel_y >= 0:
 					dy = tile[1].top - self.rect.bottom
 					self.vel_y = 0
@@ -108,7 +108,7 @@ class Player():
 
 
 
-		#update player coordinates
+		#spelerscoördinaten bijwerken
 		self.rect.x += dx
 		self.rect.y += dy
 
@@ -120,14 +120,7 @@ class Player():
 		screen.blit(self.image, self.rect)
 		# pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)
 
-class Lava(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        img = pygame.image.load('img/lava.png')
-        self.image = pygame.transform.scale(img, tile_size, tile_size // 2)
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+
         
     
 
