@@ -32,7 +32,7 @@ class Player():
 			img_left = pygame.transform.flip(img_right, True, False)
 			self.images_right.append(img_right)
 			self.images_left.append(img_left)
-		self.image = self.images_right[self.index]
+		self.image = self.images_right[self.index ]
 		self.rect = self.image.get_rect()
 		self.rect.x = x
 		self.rect.y = y
